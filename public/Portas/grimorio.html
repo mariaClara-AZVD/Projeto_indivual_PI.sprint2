@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="grimorio.css">
+</head>
+<body>
+    <div class="dialogo" id="caixa">
+        
+        <div id="texto"></div>
+        <button id="proxima" onclick="proximo()">Proximo > </button>
+        
+    </div>
+    <div class="imagem">
+        <img src="imagens/grimorio.png" alt="">
+    </div>
+</body>
+</html>
+<script>
+    
+  
+
+   const frases = [
+        `Espere... isso são minhas memórias!`
+    ];
+
+    let i = 0;
+    let j = 0;
+
+    caixa.style.display = "none";
+    
+
+
+
+        function escrever() {
+        
+            let fraseAtual = frases[j];
+
+            if (i < fraseAtual.length) {
+             texto.innerHTML += fraseAtual.charAt(i);
+             i++;
+                setTimeout(escrever, 60);
+            } else {
+          
+             if (j < frases.length - 1) {
+                    proximo.style.display = 'block';
+                }else {
+                  setTimeout(() => {
+                    caixa.style.display = 'none'
+                 }, 4000)
+                }
+            }
+        }
+
+
+       setTimeout(() => {
+            escrever();
+        }, 2000);
+
+        setTimeout(() => {
+         caixa.style.display = "block"; // mostra a caixa
+         escrever();
+        }, 2000);
+
+    
+
+function proximo() {
+    j++;              
+    i = 0;               
+    texto.innerHTML = ""; 
+    if (j < frases.length) {
+        
+        escrever()
+
+    }else {
+
+        location.href = "memorias.html";
+    
+    }
+       
+}
+
+
+
+
+
+</script>

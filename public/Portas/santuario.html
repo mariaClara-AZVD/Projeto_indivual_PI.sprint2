@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="santuario.css">
+</head>
+<body>
+     <div class="container">
+
+        <div class="codex" id="cdx">
+          
+         <img src="imagens/image copy.png" alt="codexinho">
+
+        </div>
+
+        <div class="dialogo" id="caixa">
+
+            <div id="texto"></div>
+            <button id="proxima" onclick="proximo()">Proximo > </button>
+            
+        </div>
+
+        <div class="cruzada" id="cruzadinha" style="display: none;">
+
+            
+            
+            
+            <div class="livro_antigo">
+                <input type="text" class="palavra_1" id="ipt_1"> 
+                <input type="text" class="palavra_1" id="ipt_2"> 
+                <input type="text" class="palavra_1" id="ipt_3"> 
+                <input type="text" class="palavra_1" id="ipt_4">
+                <input type="text" class="palavra_1" id="ipt_5"> 
+                <input type="text" class="palavra_1" id="ipt_6"> 
+                <input type="text" class="palavra_1" id="ipt_7">
+                <input type="text" class="palavra_1" id="ipt_8">
+                <input type="text" class="palavra_1" id="ipt_9">
+                <input type="text" class="palavra_1" id="ipt_10">
+                <input type="text" class="palavra_1" id="ipt_11">
+            </div>
+            
+            <div class="capitulo_final">
+                <input type="text" class="palavra_2" id="ipt_12"> 
+                <input type="text" class="palavra_2" id="ipt_13">
+                <input type="text" class="palavra_2" id="ipt_14">
+                <input type="text" class="palavra_2" id="ipt_15">
+                <input type="text" class="palavra_2" id="ipt_16">
+                <input type="text" class="palavra_2" id="ipt_17">
+                <input type="text" class="palavra_2" id="ipt_18">
+                <input type="text" class="palavra_2" id="ipt_19">
+                <input type="text" class="palavra_2" id="ipt_20">
+                <input type="text" class="palavra_2" id="ipt_21">
+                <input type="text" class="palavra_2" id="ipt_22">
+                <input type="text" class="palavra_2" id="ipt_23">
+                <input type="text" class="palavra_2" id="ipt_24">
+                
+            </div>
+            
+            <div class="dica">
+                <h1>Dicas</h1>
+                <h2><b> Horizontal:</b> Tenho páginas velhas e histórias do passado</h2>
+                <h2><b> Vertical:</b>Encerro a história e marco o fim da leitura.</h2>
+            </div>
+
+            <div class="desc">
+                <h1>Codigo secreto</h1>
+                <h2>Desvende a charada</h2>
+                <h2>Complete a cruzadinha para desbloquear a porta secreta</h2>
+            </div>
+
+           <button onclick="jogo()" id="teste">Testar reposta</button>
+
+           <div id="chave" style="display: none;">
+            <a href="final.html">
+            <button onclick="destrancar()">Decifrar</button>
+            </a>
+           </div>
+            
+            
+        </div>
+        
+    </div>
+</body>
+</html>
+<script>
+     function espera(){
+
+         setTimeout(espera, 3000)
+    }
+
+    espera()
+
+    const frases = [
+        `Mizuki: voce finalmente acordou... vejo que faz parte de uma guilda..`,
+        `Eu faço parte de uma guida ? isso...`,
+        `Mizuki: Humanos... tão tolos, as guildas servem para ndicar de qual clã vc mais se indetifica as coisas que vc gosta e juntar semelhasntes...`,
+        `Mais onde você me trouxe ? que lugar é esse ?`,
+        `Mizuki: Vellum te trouxe até aqui, para que eu possa fazer o teste final para ver se você jovem, é digna de encontrar o grimório de memori, caso não seja e falhe no teste consumirei sua alma`,
+        `Qual é o teste....?`,
+        `Mizuki: Se você conseguir decifrar minhas charadas eu te levo até o local onde o grimório esta escondidado. Pronta?`,
+        `Estou!`
+
+    ];
+
+       let i = 0
+       let  j = 0;
+
+       
+
+            function escrever() {
+            
+                let fraseAtual = frases[j];
+
+                if (i < fraseAtual.length) {
+                 texto.innerHTML += fraseAtual.charAt(i);
+                 i++;
+                    setTimeout(escrever, 60);
+                } else {
+              
+                 if (j < frases.length - 1) {
+                        proximo.style.display = 'block';
+                    
+                    }else {
+                        setTimeout(() => {
+                            function proximo(){
+                                caixa.style.display = 'none' 
+                            } 
+                        }, 2000)
+                    }
+                }
+            }
+    
+
+function proximo() {
+    j++;              
+    i = 0;               
+    texto.innerHTML = ""; 
+    if (j < frases.length) {
+        
+        escrever()
+
+    }else {
+
+        caixa.style.display = "none"
+        cdx.style.display = "none"
+        cruzadinha.style.display = "block"
+
+    }
+       
+}
+
+   escrever()
+
+
+function jogo(){
+
+        // horizontal livro antigo
+    let h_1 = ipt_1.value == 't' || ipt_1.value == 'T'
+    let h_2 = ipt_2.value == 'o' || ipt_2.value == 'O'
+    let h_3 = ipt_3.value == 'm' || ipt_3.value == 'M'
+    let h_4 = ipt_4.value == 'o' || ipt_4.value == 'O'
+    let h_5 = ipt_5.value == 's' || ipt_5.value == 'S' || ipt_5.value == ''
+    let h_6 = ipt_6.value == 'o' || ipt_6.value == 'O'
+    let h_7 = ipt_7.value == 'm' || ipt_7.value == 'M'
+    let h_8 = ipt_8.value == 'b' || ipt_8.value == 'B'
+    let h_9 = ipt_9.value == 'r' || ipt_9.value == 'R'
+    let h_10 = ipt_10.value == 'i' || ipt_10.value == 'I'
+    let h_11 = ipt_11.value == 'o' || ipt_11.value == 'O'
+
+    // Vertical capitulo final
+    let v_1 = ipt_12.value == 'p' || ipt_12.value == 'P'
+    let v_2 = ipt_13.value == 'a' || ipt_14.value == 'A'
+    let v_3 = ipt_14.value == 'l' || ipt_14.value == 'L'
+    let v_4 = ipt_15.value == 'a' || ipt_12.value == 'A'
+    let v_5 = ipt_16.value == 'v' || ipt_16.value == 'V'
+    let v_6 = ipt_17.value == 'r' || ipt_17.value == 'R'
+    let v_7 = ipt_18.value == 'a' || ipt_18.value == 'A'
+    let v_8 = ipt_19.value == 's' || ipt_19.value == 'S' 
+    let v_9 = ipt_20.value == 'c' || ipt_20.value == 'C'
+    let v_10 = ipt_21.value == 'h' || ipt_21.value == 'H'
+    let v_11 = ipt_22.value == 'a' || ipt_22.value == 'A'
+    let v_12 = ipt_23.value == 'v' || ipt_23.value == 'V'
+    let v_13 = ipt_24.value == 'e' || ipt_24.value == 'E'
+
+    if ( !(h_1 || h_2 || h_3 || h_4 || h_5 || h_6 || h_7 ||  h_8 ||  h_9 || h_10 || h_11)){
+        alert('Acesso Negado ')
+        
+
+    } else if (!(v_1 || v_2 || v_3 || v_4 || v_5 || v_6  || v_7 || v_8 || v_9 || v_10 || v_11 || v_12 || v_13)){
+    
+        alert('Acesso Negado ')
+
+    } else {
+
+        chave.style.display = 'block'
+
+    }
+
+
+}
+
+function destrancar(){
+
+    window.location = 'final.html'
+}
+</script>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="portas.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+        
+        <div class="dialogo" id="caixa">
+            <div id="texto"></div>
+            <button id="proxima" onclick="proximo()">Pular</button>
+        </div>
+                
+        <a href="/Portas/clareira.html" class="porta_esquerda"></a>
+
+        <a href="/Portas/Labirinto.html" class="porta_direita"></a>
+    </div>
+</body>
+</html>
+<script>
+    let i = 0
+    let frase = 'Eu me lembro que ja li sobre essas portas antes... a primeira porta é considerada iluminada e calma... tenho milhões de livros sobre relatos de pessoas que nunca mais sairam... e a segunda as paginas contam que é como se fosse o lado obscuro da mente  tenho que tomar cuidado na minha escolha'
+    function escrever(){
+       
+
+        
+
+        if(i < frase.length){
+        
+            texto.innerHTML += frase.charAt(i)
+            i++
+
+            setTimeout(escrever,60)
+
+        } else {
+
+            proxima.style.display = 'block'
+
+        }
+    }
+
+   escrever()
+
+    function proximo(){
+
+        caixa.style.display = "none"
+
+
+    }
+
+
+    
+   
+
+    
+
+</script>

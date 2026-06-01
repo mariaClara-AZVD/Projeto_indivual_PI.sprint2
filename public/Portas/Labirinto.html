@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="Labirinto.css">
+</head>
+<body>
+    <div class="container">
+        <div class="codex" id="cdx">
+            <img src="imagens/Vellum.png" alt="codexinho">
+        </div>
+        <div class="dialogo" id="caixa">
+
+            <div id="texto"></div>
+            <button id="proxima" onclick="proximo()">Proximo > </button>
+            
+        </div>
+
+        <div class="qiz" id="quiz" style="display: none;">
+
+            <div class="question">
+                <h1 id="pergunta"></h1>
+            </div>  
+
+           <div class="alternativas" id="alts">
+                <button class="alt" id="op1"></button>
+                <button class="alt" id="op2"></button>
+                <button class="alt" id="op3"></button>
+                <button class="alt" id="op4"></button>
+           </div>
+
+           <div class="botao">
+                <button id="next_question" onclick="proxima_pergunta()">Proxima Pergunta</button>
+           </div>
+            
+
+        </div>
+
+        <div id="resultado" style="display: none;">
+
+            <div id="brasao"></div>
+
+            <div id="nome_cla"></div>
+
+            <div id="descricao"></div>
+
+            <a href="santuario.html">
+            <button id="continua" onclick="proxima_pagina()">Continuar</button>
+            </a>
+            
+
+        </div>
+        
+    </div>
+
+   
+  
+
+</body>
+</html>
+<script src="quiz_2.js"></script>
+<script>
+
+    function espera(){
+
+         setTimeout(espera, 3000)
+    }
+
+    espera()
+
+    const frases = [
+        ` ??? :Visitantes? isso não é comum`,
+        `É... o-olá...`,
+        `Vellum: sou Vellum o mostro do labirinto, sorte sua que hoje ja me alimentei de um viajante perdido, oque você busca por essas bandas`,
+         `Sou uma bibliotecaria que veio em nome do do alto congresso sagrado em busca do Grimório de memori`,
+         `Vellum: hm.... eu não sei qual é a sua então vou precisar fazer um pequeno teste pra ver se eu te deixo passar`,
+         `Se vc passar vou te mandar para meu amigo.. eu não sei lidar muito bem com humanos então não estranhe se vc derrepente aparecer em algum lugar ou nunca mais acordar`
+    ];
+
+       let i = 0
+       let  j = 0;
+
+       
+
+            function escrever() {
+            
+                let fraseAtual = frases[j];
+
+                if (i < fraseAtual.length) {
+                 texto.innerHTML += fraseAtual.charAt(i);
+                 i++;
+                    setTimeout(escrever, 60);
+                } else {
+              
+                 if (j < frases.length - 1) {
+                        proximo.style.display = 'block';
+                    }else {
+                      setTimeout(() => {
+                        caixa.style.display = 'none'
+                     }, 2000)
+                    }
+                }
+            }
+    
+
+function proximo() {
+    j++;              
+    i = 0;               
+    texto.innerHTML = ""; 
+    if (j < frases.length) {
+        
+        escrever()
+
+    }else {
+
+     iniciarQuiz();
+     
+
+    }
+       
+}
+
+   escrever()
+
+function iniciarQuiz(){
+
+    caixa.style.display = "none"
+    quiz.style.display = "block"
+    cdx.style.display = "none"
+    
+    pergunta_na_tela()
+}
+
+let pergunta_atual = 0
+let guilda = 0
+let alternativa_Escolhida = -1
+
+let pontuacao = 0
+let pontos_por_questao = []
+
+function pergunta_na_tela() {
+
+    let perg = qui[pergunta_atual]
+
+    pergunta.innerHTML = perg.questoes
+
+    op1.innerHTML = perg.opcoes[0]
+    op2.innerHTML = perg.opcoes[1]
+    op3.innerHTML = perg.opcoes[2]
+    op4.innerHTML = perg.opcoes[3]
+}
+
+function proxima_pergunta(){
+    
+    if(alternativa_Escolhida == -1){
+        alert('Por favor escolha uma opção')
+        return
+    }
+
+    pontuacao += qui[pergunta_atual].pontos[alternativa_Escolhida]
+
+    pontos_por_questao[pergunta_atual] =
+        qui[pergunta_atual].pontos[alternativa_Escolhida]
+
+    pergunta_atual++
+
+    if (pergunta_atual < qui.length){
+        
+        pergunta_na_tela()
+        alternativa_Escolhida = -1
+
+    } else {
+
+        final()
+
+    }
+}
+
+
+
+op1.onclick = function(){
+    alternativa_Escolhida = 0
+}
+
+op2.onclick = function(){
+    alternativa_Escolhida = 1
+}
+
+op3.onclick = function(){
+    alternativa_Escolhida = 2
+}
+
+op4.onclick = function(){
+    alternativa_Escolhida = 3
+}
+
+function final(){
+    
+    quiz.style.display = "none"
+    resultado.style.display = "block"
+
+    sessionStorage.setItem(
+        'pontuacao',
+        JSON.stringify(pontos_por_questao)
+    )
+
+    sessionStorage.setItem(
+        'pontuacao_total',
+        pontuacao
+    )
+
+    if(pontuacao <= 8){
+
+        resultado.className = "arquivista"
+
+
+        brasao.innerHTML = `<img src="/Portas/imagens/aquivista-brasao.png" alt="brasao 1">`
+        nome_cla.innerHTML = 'O Arquivista de Pergaminhos'
+        descricao.innerHTML = 'As páginas de sua alma são feitas de pergaminho antigo e fatos imutáveis. Você não busca o que poderia ser, mas sim o que é e o que foi. Para você, a leitura é um ato de preservação; você caminha pelos corredores da não-ficção, das biografias e dos registros históricos como um guardião da verdade. Enquanto o mundo se perde em fantasias, você segura a lanterna que ilumina a realidade e as raízes da humanidade.'
+        
+
+    } 
+    else if(pontuacao <= 12){ 
+
+        resultado.className = "antologista"
+
+        brasao.innerHTML = `<img src="imagens/almas-brasao.png" alt="brasao_2">`
+        nome_cla.innerHTML = 'O Antologista de Almas'
+        descricao.innerHTML = 'Você não lê com os olhos, mas com o coração pulsante entre as mãos. Suas histórias favoritas são aquelas que destilam a essência humana: o drama, a poesia e os amores que desafiam o tempo. Você busca o reflexo de suas próprias cicatrizes nas palavras dos poetas e dos grandes clássicos. Para você, um livro só tem valor se for capaz de transmutar uma lágrima em sabedoria ou um suspiro em compreensão.'
+
+    } 
+    else if(pontuacao <=16){
+
+        resultado.className = "viajante"
+        
+        brasao.innerHTML = `<img src="imagens/viajante-brasao.png" alt="brasao_3">`
+        nome_cla.innerHTML = 'Viajante de Reinos'
+        descricao.innerHTML = 'As leis da física e as bordas do mapa são meras sugestões para você. Sua mente é um portal sempre aberto para a Fantasia Épica e a Ficção Científica. Você é aquele que desenha constelações em páginas em branco e busca naves ou dragões que o levem para longe da monotonia do real. Para você, ler é a única forma de viver mil vidas em mundos que o sol comum jamais ousou iluminar.'
+
+    } 
+    else {
+
+        resultado.className = "decifrador"
+        
+        brasao.innerHTML = `<img src="imagens/decifrador-brasao.png" alt="brasao_4">`
+        nome_cla.innerHTML = 'Decifrador de Grimórios'
+        descricao.innerHTML = 'Você é atraído pelo sussurro que vem das frestas das estantes, onde a luz não chega. O Terror, o Suspense e o Arcano são seus domínios preferidos. Você não teme os monstros; você deseja saber o nome deles. Suas leituras são rituais de coragem, desvendando mistérios sombrios e thrillers que fariam outros fecharem os olhos. Onde todos veem medo, você encontra o êxtase do conhecimento proibido.'
+
+    }
+
+    var id_usuario = sessionStorage.ID_USUARIO;
+    var guilda_salvar = nome_cla.innerHTML;
+    var pontos_questao = sessionStorage.getItem('pontuacao');
+
+    fetch("/quiz/salvar", {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json"
+    },
+        body: JSON.stringify({
+         id_usuario: id_usuario,
+         guilda: guilda_salvar,
+         pontuacao_total: pontuacao,
+         pontos_por_questao: pontos_questao
+        })
+     })
+    .then(function(resposta) {
+    if (resposta.ok) {
+        console.log("Resultado salvo no banco!");
+    }
+})
+.catch(function(erro) {
+    console.log("Erro:", erro);
+});
+
+    
+}
+
+ function proxima_pagina(){
+     window.location = "santuario.html"
+ }
+
+    
+
+</script>

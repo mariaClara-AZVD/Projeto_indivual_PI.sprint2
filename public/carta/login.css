@@ -1,0 +1,155 @@
+body{
+  margin: 0;
+  padding: 0;
+  height: 100%; 
+  width: 100%; 
+  background-image: url('imagens/image.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+
+  background-image: url("imagens/image.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.info_login{
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  left: 45%;
+  top: 10%;
+}
+
+@font-face {
+    font-family: 'heartsome';
+    src: url('/Portas/Tela inicial/imagem/fontes/Heartsome DEMO.otf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'blone';
+    src: url('/Portas/Tela inicial/imagem/fontes/Blone.otf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Garden';
+    src: url('/Portas/Tela inicial/imagem/fontes/The Garden of Lights.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+
+.info_login p{
+  padding-bottom: 5px;
+  font-family: Garden;
+  font-size: 25px;
+  background: linear-gradient(to right, #55431c, #ffb728);   
+   -webkit-background-clip: text;
+    background-clip: text;
+   -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 0.5px #000
+
+}
+
+.info_login input{
+  background: none;
+  border: none;
+  border-bottom: 1px solid;
+  width: 300px;
+  outline: none;
+  margin-bottom: 40px;
+  font-size: 15px;
+  font-family: Garden;
+  filter: brightness(1.6); 
+
+}
+
+/* .nome{
+  margin-top: 20px;
+} */
+
+.senha input{
+  margin-bottom: 20px;
+}
+
+.botoes_login span{
+  color: #5a4418;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  left: 51%;
+  top: 92%;
+}
+
+#jornada{
+  position: absolute;
+  width: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 68%;
+  left: 42%;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  width: 500px;
+  font-family: Garden;
+  font-size: 50px;
+  margin-top: 25px;
+  background: linear-gradient(to right, #352a13, #faba3b);   
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 0.5px #000
+}
+
+
+
+#cadastro{
+  position: absolute;
+  width: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;  
+  top: 79%;
+  left: 51%;
+
+  background: none;
+  border: 0;
+  cursor: pointer;
+  width: 170px;
+  font-family: Garden;
+  font-size: 25px;
+  color:linear;
+  margin-top: 30px;
+  background: linear-gradient(to right, #212409, #9f7a0a);   
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 0.5px #000
+  
+}
+
+.botoes_login button:hover{
+  filter: brightness(1.6); 
+  transform: scale(1.2); 
+  transition: 1.9s;  
+  cursor: pointer;
+}
+#jornada2:hover{
+  filter: brightness(1.6); 
+  transform: scale(1.2); 
+  transition: 1.9s;  
+  cursor: pointer;
+}
+

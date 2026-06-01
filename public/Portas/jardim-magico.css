@@ -1,0 +1,298 @@
+body{
+  margin: 0;
+  padding: 0;
+  height: 100%; 
+  width: 100%; 
+  background-image: url('imagens/jardim-magico.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+
+}
+
+.codex img {
+    position: absolute;
+    left: 0;        
+    top: 80px; 
+    right: 100px;       
+    width: 800px;     
+    margin: 0;   
+    margin-top: 65px;  
+    margin-right: 85px;
+    z-index: 10;      
+}
+
+.dialogo{
+  width: 610px;
+  padding: 110px;
+  background-color: rgba(0, 0, 0, 0.489);
+  border-radius: 25%;
+  border-left: 50px;
+  backdrop-filter: blur(80%);
+  box-shadow: 0 0 30px rgba(0,0,0,0.7);
+
+  margin-left: 28%;
+  margin-top: 10%;
+  
+}
+
+@font-face {
+    font-family: 'Garden';
+    src: url('/Portas/Tela inicial/imagem/fontes/The Garden of Lights.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+  font-family: 'Heart';
+  src: url('/Portas/Tela inicial/imagem/fontes/Blone.otf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
+#texto{
+  color: rgb(247, 236, 149);
+  font-family: Heart;
+  margin-left: 15%;
+  font-style: oblique;
+  border-color: rgb(184, 109, 11);
+  font-size: 24px;
+}
+
+#proxima{
+  display: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  margin-left: 40%;
+  margin-top: 10%;
+
+  background: none;
+  border: none;
+  font-family: Garden;
+  color: rgb(255, 245, 180);
+  cursor:pointer;
+  font-size: 14px;
+}
+
+.cruzadinha{
+  display: flex;
+ 
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 8%;
+}
+
+.livro_antigo,
+.capitulo_final{
+  display: flex;
+  gap: 8px;
+}
+
+.livro_antigo input,
+.capitulo_final input{
+  width: 45px;
+  height: 45px;
+
+  background-color: rgba(0, 0, 0, 0.35);
+  border: 2px solid rgb(162, 109, 45);
+  border-radius: 8px;
+
+  color: rgb(246, 233, 167);
+  font-family: Garden;
+  font-size: 24px;
+  text-align: center;
+  text-transform: uppercase;
+
+  outline: none;
+  box-shadow: 0 0 12px rgba(207, 255, 192, 0.3);
+}
+
+/* .cruzada{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 5%;
+} */
+
+.cruzada{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    width: 900px;
+    height: 700px;
+}
+ 
+
+.cruzada input{
+    width: 45px;
+    height: 45px;
+    background-color: rgba(0, 0, 0, 0.35);
+    border: 2px solid rgb(250, 226, 128);
+    border-radius: 8px;
+    color: rgb(255, 249, 220);
+    text-align: center;
+    font-size: 24px;
+    font-family: Garden;
+}
+.livro_antigo{
+    grid-column: 4;
+    grid-row: 8;
+    display: flex;
+    gap: 8px;
+    display: flex;
+    position: absolute;
+    left: 100px;
+    top: 409px;
+
+
+}
+
+.capitulo_final{
+    display: flex;
+   position: absolute;
+    grid-column: 7;
+    grid-row: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    left: 340px;
+
+}
+
+.dica h2{
+    font-family: Garden;
+    font-size: 24px;
+    font-weight: normal;
+
+    color: rgb(251, 244, 208);
+
+   
+
+    background-color: rgba(0, 0, 0, 0.388);
+
+    padding: 15px 25px;
+    margin: 15px 0;
+
+    border: 2px solid rgb(255, 239, 166);
+    border-radius: 15px;
+
+    box-shadow: 0 0 15px rgba(207, 255, 192, 0.25);
+
+    text-shadow: 0 0 8px rgba(246, 233, 167, 0.4);
+}
+
+.dica{
+    position: absolute;
+    bottom: 350px;
+    right: 70%;
+    width: 50%;
+}
+
+.dica h1{
+    font-family: Garden;
+    font-size: 54px;
+    font-weight: normal;
+    text-align: center;
+    color: rgb(251, 244, 208);
+    padding: 15px 25px;
+    margin: 15px 0;
+    text-shadow: 0 0 8px rgba(22, 19, 6, 0.805);
+    background-image: linear-gradient(to right, #ffed77ec, #563302cb);
+    border-radius: 25px;
+}
+
+.desc h2{
+    font-family: Garden;
+    font-size: 24px;
+    font-weight: normal;
+    color: rgb(251, 244, 208);
+    background-color: rgba(0, 0, 0, 0.388);
+    padding: 15px 25px;
+    margin: 15px 0;
+    border: 2px solid rgb(255, 239, 166);
+  
+    border-radius: 15px;
+    box-shadow: 0 0 15px rgba(207, 255, 192, 0.25);
+    text-shadow: 0 0 8px rgba(246, 233, 167, 0.4);
+}
+
+.desc{
+    position: absolute;
+    bottom: 380px;
+    left: 70%;
+    width: 50%;
+}
+
+.desc h1{
+    font-family: Garden;
+    font-size: 54px;
+    font-weight: normal;
+    text-align: center;
+    color: rgb(253, 241, 178);
+    background-image: linear-gradient(to right, #ffed77ec, #563302cb);
+    border-radius: 20px;
+    padding: 15px 25px;
+    margin: 15px 0;
+    text-shadow: 0 0 8px rgba(22, 19, 6, 0.805);
+}
+
+#teste{
+   position: absolute;
+  width: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 65%;
+  left: 45%;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  width: 500px;
+  font-family: Garden;
+  font-size: 50px;
+  margin-top: 30px;
+  background: linear-gradient(to right, #ffd67f, #191918);   
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 0.5px #000
+}
+
+#teste:hover{
+  filter: brightness(1.6); 
+  transform: scale(1.2); 
+  transition: 1.9s;  
+  cursor: pointer;
+}
+
+
+#chave button{
+  position: absolute;
+  width: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 80%;
+  left: 48%;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  width: 500px;
+  font-family: Garden;
+  font-size: 50px;
+  margin-top: 30px;
+  background: linear-gradient(to right, #b6d7dc, #2b3944);   
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 0.5px #000
+}
+
+

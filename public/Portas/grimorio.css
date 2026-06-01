@@ -1,0 +1,82 @@
+body{
+  margin: 0;
+  padding: 0;
+  height: 100%; 
+  width: 100%; 
+  background-image: url('imagens/sala-bau-aberto.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+
+  background-image: url("imagens/sala-bau-aberto.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.imagem img{
+    width: 1500px;
+    margin-left: 5%;
+    position: absolute;
+    z-index: 1;
+}
+
+
+
+.dialogo{
+  width: 610px;
+  padding: 110px;
+  background-color: rgba(0, 0, 0, 0.489);
+  border-radius: 25%;
+  backdrop-filter: blur(80%);
+  box-shadow: 0 0 30px rgba(0,0,0,0.7);
+
+  margin-left: 28%;
+  margin-top: 10%;
+  position: absolute;
+  z-index: 10;
+}
+
+@font-face {
+    font-family: 'Garden';
+    src: url('/Portas/Tela inicial/imagem/fontes/The Garden of Lights.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+  font-family: 'Heart';
+  src: url('/Portas/Tela inicial/imagem/fontes/Blone.otf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
+#texto{
+  color: rgb(247, 236, 149);
+  font-family: Heart;
+  margin-left: 15%;
+  font-style: oblique;
+  border-color: rgb(184, 109, 11);
+  font-size: 24px;
+  position: absolute;
+}
+
+#proxima{
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  margin-left: 40%;
+  margin-top: 10%;
+
+  background: none;
+  border: none;
+  font-family: Garden;
+  color: rgb(255, 245, 180);
+  cursor:pointer;
+  font-size: 14px;
+  position: absolute;
+}

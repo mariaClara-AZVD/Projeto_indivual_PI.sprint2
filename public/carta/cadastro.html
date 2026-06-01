@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="cadastro.css">
+    <title>Cadastro</title>
+</head>
+
+<body>
+
+    <div class="fundo">
+
+       <div class="info_cadastro">
+
+            <!-- NOME -->
+            <div class="nickname">
+                <p><b>𖤝</b> Nome de usuario:</p> 
+                <span>➺<input type="text" id="username"></span>
+            </div>
+
+            <!-- EMAIL -->
+            <div class="email">
+                <p><b>𖤝</b> Código de contato</p>
+                ➺<input type="text" id="user_email">
+            </div>
+
+            <!-- SENHA -->
+            <div class="senha">
+                <p><b>𖤝</b> Selo Arcano:</p>
+                ➺<input type="password" id="psswd">
+            </div>
+
+            <!-- CONFIRMAR SENHA -->
+            <div class="conf_senha">
+                <p><b>𖤝</b> Confirmação do Arcano</p>
+                ➺<input type="password" id="confirmar">
+            </div>
+
+       </div>
+
+    </div>
+
+    <!-- botao de confirmar cadastro -->
+    <div class="botao_cadastro">
+        <button id="jornada" onclick="cadastrar()">
+            Confirmar
+        </button>
+    </div>
+
+    <!-- mensagem  de erro -->
+    <div id="mensagemErro"></div>
+
+</body>
+</html>
+
+<script>
+
+
+function cadastrar() {
+
+    // Variaveis do input 
+    var nomeVar = username.value;
+    var emailVar = user_email.value;
+    var senhaVar = psswd.value;
+    var confirmacaoSenhaVar = confirmar.value;
+
+    // Validações de campos vazios  
+    if (
+        nomeVar == "" ||
+        emailVar == "" ||
+        senhaVar == "" ||
+        confirmacaoSenhaVar == ""
+    ) {
+
+     // Mensagem de erro 
+        mensagemErro.style.display = "block";
+        mensagemErro.innerHTML = "Preencha todos os campos!";
+
+        return false;
+    }
+
+    // Validação de senhas diferentes
+    if (senhaVar != confirmacaoSenhaVar) {
+
+        mensagemErro.style.display = "block";
+        mensagemErro.innerHTML = "As senhas não coincidem!";
+
+        return false;
+    }
+
+    // Validação de email valido
+    if (!emailVar.includes("@")) {
+
+        mensagemErro.style.display = "block";
+        mensagemErro.innerHTML = "Email inválido!";
+
+        return false;
+    }
+
+    // fazer cadastro no banco
+    fetch("/usuarios/cadastrar", {
+
+        method: "POST",
+
+        headers: {
+            "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify({
+
+            nomeServer: nomeVar,
+            emailServer: emailVar,
+            senhaServer: senhaVar
+
+        })
+
+    })
+
+    // Resposta do banco e mensagem de sucesso
+    .then(function (resposta) {
+
+        console.log("Resposta do servidor:", resposta);
+        console.log("Status:", resposta.status);
+        console.log("OK:", resposta.ok);
+
+        // se o cadastro der certo = ok
+        if (resposta.ok) {
+
+            mensagemErro.style.display = "block";
+            mensagemErro.style.color = "green";
+
+            mensagemErro.innerHTML =
+            "Cadastro realizado com sucesso!";
+
+            console.log("Cadastro bem-sucedido, redirecionando...");
+
+            setTimeout(() => {
+
+                window.location = "login.html";
+
+            }, 2000);
+
+         // erro no cadastro
+        } else {
+
+            console.log("Resposta com erro, tentando parsear JSON...");
+
+            return resposta.json().then(function (erroBody) {
+                console.log("Erro retornado pelo servidor:", erroBody);
+                mensagemErro.style.display = "block";
+                mensagemErro.style.color = "red";
+                mensagemErro.innerHTML = erroBody.error || "Erro ao realizar cadastro: " + resposta.status;
+            }).catch(function (erroParser) {
+                console.log("Erro ao parsear resposta JSON:", erroParser);
+                mensagemErro.style.display = "block";
+                mensagemErro.style.color = "red";
+                mensagemErro.innerHTML = "Erro ao realizar cadastro (status " + resposta.status + ")";
+            });
+
+        }
+
+    })
+
+    // captação de erros
+    .catch(function (erro) {
+
+        console.log("Erro na requisição:", erro);
+
+        mensagemErro.style.display = "block";
+        mensagemErro.style.color = "red";
+
+        mensagemErro.innerHTML =
+        "Erro na requisição: " + (erro.message || "Conexão falhou");
+
+    });
+
+    return false;
+}
+
+
+// mensagem de erro 
+function sumirMensagem() {
+
+    mensagemErro.style.display = "none";
+
+}
+
+</script>

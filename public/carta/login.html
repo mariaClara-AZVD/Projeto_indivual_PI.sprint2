@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="login.css">
+</head>
+<body>
+
+    <div class="fundo"> 
+
+       <div class="info_login">
+
+            <!-- NOME  -->
+            <div class="nome">
+                <p><b>𖤝</b> Nome:</p> 
+                <span>➺<input type="text" id="ipt_nome"></span>
+            </div>
+
+            <!-- EMAIL -->
+            <div class="email">
+                <p><b>𖤝</b> Código de contato</p>
+                ➺<input type="text" id="ipt_email">
+            </div>
+
+            <!-- SENHA -->
+            <div class="senha">
+                <p><b>𖤝</b> Selo Arcano:</p>
+                ➺<input type="password" id="ipt_senha">
+            </div>
+
+       </div>
+      
+       <div class="botoes_login">
+
+           <!-- Acesso ao jogo e a tela das portas  -->
+            <button id="jornada" onclick="entrar()">
+                Iniciar Jornada
+            </button>
+
+            <!-- ir para o cadastro -->
+            <a href="cadastro.html">
+                <button id="cadastro">
+                    Rever inscrição
+                </button>
+            </a> 
+
+       </div>
+
+       <!-- mensagem de erro -->
+       <div id="mensagemErro"></div>
+
+    </div>
+
+</body>
+</html>
+
+<script>
+
+function entrar() {
+
+    // Variaveis das inputs para o login
+    var emailVar = ipt_email.value;
+    var senhaVar = ipt_senha.value;
+    var varnome = ipt_nome.value
+
+    // Validção ed campos vazios
+    if (emailVar == "" || senhaVar == "" || varnome == '') {
+
+        mensagemErro.innerHTML = "Preencha todos os campos!";
+        mensagemErro.style.display = "block";
+
+        return false;
+    }
+
+    console.log("FORM LOGIN:", emailVar);
+    console.log("FORM SENHA:", senhaVar);
+
+    // Fazer o select no banco para ver se existe
+    fetch("/usuarios/autenticar", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify({
+            emailServer: emailVar,
+            senhaServer: senhaVar,
+            nomeServer : varnome
+        })
+
+        // resposta
+    }).then(function (resposta) {
+
+        console.log("Resposta:", resposta);
+
+        // se a resposta = ok ou o usuario existir no banco 
+        if (resposta.ok) {
+
+            //faz login e guarda os dados
+            resposta.json().then(json => {
+
+                console.log(json);
+
+                sessionStorage.EMAIL_USUARIO = json.email;
+                sessionStorage.NOME_USUARIO = json.nome;
+                sessionStorage.ID_USUARIO = json.id;
+
+                mensagemErro.innerHTML = "Login realizado!";
+                mensagemErro.style.color = "green";
+                
+    // verifica se o usuario ja fez o quiz
+    fetch('/quiz/verificar/' + json.id)
+    .then(function(r) { return r.json(); })
+    .then(function(resultado) {
+        if (resultado.jaFez) {
+            // Já fez o quiz — pergunta o que quer fazer
+            var reiniciar = confirm("Você já fez o quiz! Deseja reiniciar sua jornada?\n\nClique em OK para reiniciar ou Cancelar para ver sua dashboard.");
+            
+            if (reiniciar) {
+                // Deleta o resultado antigo e vai pro quiz
+                fetch('/quiz/deletar/' + json.id, { method: 'DELETE' })
+                    .then(function() {
+                        window.location = "../Portas/portas.html";
+                    });
+            } else {
+                // Vai direto pra dashboard
+                window.location = "/dashboard/dashboard.html";
+            }
+        } else {
+            // Nunca fez o quiz — vai pro quiz normalmente
+            setTimeout(() => {
+                window.location = "../Portas/portas.html";
+            }, 1000);
+        }
+    });
+
+            });
+
+        } else {
+
+            mensagemErro.innerHTML = "Email ou senha inválidos!";
+            mensagemErro.style.display = "block";
+
+        }
+
+    }).catch(function (erro) {
+
+        console.log(erro);
+
+        mensagemErro.innerHTML = "Erro no servidor!";
+        mensagemErro.style.display = "block";
+
+    });
+
+    return false;
+}
+
+</script>

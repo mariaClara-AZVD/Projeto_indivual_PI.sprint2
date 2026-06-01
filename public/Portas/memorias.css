@@ -1,0 +1,41 @@
+body{
+  background-color: black;
+}
+
+#video{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+#botao{
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+}
+
+#botao{
+  position: absolute;
+  width: 100px;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  top: 43%;
+  left: 35%;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  width: 500px;
+  font-family: Garden;
+  font-size: 50px;
+  margin-top: 30px;
+  background: linear-gradient(to right, #fff2d6, #191918);   
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 0.5px #000
+}

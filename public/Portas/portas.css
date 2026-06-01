@@ -1,0 +1,105 @@
+body{
+  margin: 0;
+  padding: 0;
+  height: 100%; 
+  width: 100%; 
+  background-image: url('imagens/fundo_portas\ .png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+
+  background-image: url("imagens/fundo_portas\ .png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+
+
+.porta_esquerda{
+    position: absolute;
+    left: 0;
+    width: 35%;
+    height: 100%;
+}
+
+
+
+body:has(.porta_esquerda:hover){
+    background-image: url("imagens/porta_clara.png");
+}
+
+
+
+.porta_direita{
+    position: absolute;
+    right: 0;
+    width: 35%;
+    height: 100%;
+}
+
+
+
+body:has(.porta_direita:hover){
+    background-image: url("imagens/porta_escura.png");
+}
+
+.dialogo{
+  width: 610px;
+  padding: 110px;
+  background-color: rgba(0, 0, 0, 0.241);
+  border-radius: 25%;
+  border-left: 50px;
+  backdrop-filter: blur(80%);
+  box-shadow: 0 0 30px rgba(0,0,0,0.7);
+
+
+  
+  margin-left: 28%;
+  margin-top: 10%;
+  
+}
+@font-face {
+    font-family: 'blone';
+    src: url('/Portas/Tela inicial/imagem/fontes/Blone.otf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Garden';
+    src: url('/Portas/Tela inicial/imagem/fontes/The Garden of Lights.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+#texto{
+  color: rgb(255, 245, 180);
+  font-family: Garden;
+  border: px;
+  border-color: rgb(184, 109, 11);
+  font-size: 24px;
+}
+
+#proxima{
+  display: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  margin-left: 40%;
+  margin-top: 10%;
+
+  background: none;
+  border: none;
+  font-family: Garden;
+  color: rgb(255, 245, 180);
+  cursor:pointer;
+  font-size: 14px;
+}
+
+
+
+
+

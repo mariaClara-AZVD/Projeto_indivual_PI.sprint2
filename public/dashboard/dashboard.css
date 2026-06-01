@@ -1,0 +1,107 @@
+@font-face {
+    font-family: 'Garden';
+    src: url('../Tela inicial/imagem/fontes/The Garden of Lights.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-image: url('imagens/image.png'); /* Sua imagem do livro */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    font-family: 'Garden', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.graficos {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    width: 100%;
+    max-width: 720px;
+    box-sizing: border-box;
+    margin-top: 140px;
+}
+
+.bloco-grafico_1 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 280px; 
+    margin-right: 200px;
+    margin-left: -20px;
+}
+
+
+.coluna-direita {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 280px;
+}
+
+
+.titulo {
+    font-family: 'Garden', sans-serif;
+    font-size: 22px; 
+    text-align: center;
+    margin-bottom: 15px;
+    margin-top: 0;
+    color: #2c1d11; 
+}
+
+
+.bloco-brasao {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 15px; 
+}
+
+#brasao {
+    width: 150px; 
+    height: auto;
+}
+
+#nome-guilda {
+    font-family: 'Garden', sans-serif;
+    font-size: 24px;
+    margin-top: 5px;
+    margin-bottom: 0;
+    color: #2c1d11;
+}
+
+.botao-sair {
+    margin-top: 20px;
+    background: none;
+    border: 0;
+    cursor: pointer;
+    font-family: 'Garden', sans-serif;
+    font-size: 28px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    background: linear-gradient(to right, #ffd67f, #191918);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -webkit-text-stroke: 0.5px #000;
+    transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.botao-sair:hover {
+    filter: brightness(1.4);
+    transform: scale(1.05);
+}
+
+.bloco-grafico_2 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}

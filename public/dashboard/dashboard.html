@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="dashboard.css">
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation"></script>
+</head>
+<body>
+
+<div class="graficos">
+
+    <div class="bloco-grafico_1">
+        <p class="titulo">Distribuição das Guildas</p>
+        <canvas id="grafico_1"></canvas>
+        <button id="botao-sair" class="botao-sair" onclick="logout()">Sair</button>
+    </div>
+    
+   
+    <div>
+        
+        <div class="bloco-brasao">
+            <img id="brasao" src="/public/Portas/imagens/" alt="brasão da guilda">
+            <p id="nome-guilda"></p>
+        </div>
+        
+        <div class="bloco-grafico_2">
+            <p class="titulo">Sua Afinidade</p>
+            <canvas id="grafico_2"></canvas>
+        </div>
+    </div>
+
+    <img src="/public/Portas/imagens/almas-brasao.png" alt="">
+
+</div>
+<script>
+    
+fetch('/quiz/resultados')
+    .then(function(resposta) {
+        if (!resposta.ok) {
+            return resposta.text().then(function(text) {
+                throw new Error('HTTP ' + resposta.status + ': ' + text);
+            });
+        }
+        return resposta.json();
+    })
+    .then(function(dados) {
+        var totals = dados.reduce(function(map, item) {
+            var key = (item.guilda || '').toString().trim().toLowerCase();
+            map[key] = item.total;
+            return map;
+        }, {});
+
+        var labels = [
+            'O Arquivista de Pergaminhos',
+            'O Antologista de Almas',
+            'Viajante de Reinos',
+            'Decifrador de Grimórios'
+        ];
+
+        function findTotal(label) {
+            var normalizedLabel = label.toLowerCase();
+            if (totals[normalizedLabel] !== undefined) {
+                return totals[normalizedLabel];
+            }
+
+            for (var key in totals) {
+                if (key && (normalizedLabel.includes(key) || key.includes(normalizedLabel))) {
+                    return totals[key];
+                }
+            }
+
+            return 0;
+        }
+
+        var totais = labels.map(findTotal);
+
+        var canvas = document.getElementById('grafico_1');
+        var ctx = canvas.getContext('2d');
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: totais,
+                    backgroundColor: ['#e0ab38', '#70045e', '#1b2180', '#450173'],
+                    borderWidth: 0
+                }]
+            }
+        });
+    })
+    .catch(function(erro) {
+        console.error('Erro ao carregar resultados do quiz:', erro);
+    });
+
+var idUsuario = sessionStorage.ID_USUARIO;
+
+function exibirGuilda(guilda) {
+    var brasao = document.getElementById('brasao');
+    var nomeGuilda = document.getElementById('nome-guilda');
+
+
+    if (!brasao || !nomeGuilda) {
+
+        console.error('Elementos de guilda não encontrados no DOM.');
+        return;
+    }
+
+    if (guilda.includes('Arquivista')) {
+
+        brasao.src = '../Portas/imagens/aquivista-brasao.png'
+
+        nomeGuilda.textContent = 'O Arquivista de Pergaminhos'
+
+    } else if (guilda.includes('Antologista')) {
+
+        brasao.src = '../Portas/imagens/almas-brasao.png'
+        nomeGuilda.textContent = 'O Antologista de Almas'
+    
+    } else if (guilda.includes('Viajante')) {
+
+       brasao.src = '../Portas/imagens/viajante-brasao.png'
+        nomeGuilda.textContent = 'Viajante de Reinos'
+
+    } else if (guilda.includes('Decifrador')) {
+
+        brasao.src = '../Portas/imagens/decifrador-brasao.png'
+        nomeGuilda.textContent = 'Decifrador de Grimórios'
+
+    } else {
+        
+        brasao.src = '../Portas/imagens/almas-brasao.png'
+        nomeGuilda.textContent = 'Guilda desconhecida'
+    }
+}
+
+if (!idUsuario) {
+    console.warn('ID_USUARIO não encontrado em sessionStorage. O gráfico de barras não será exibido até o login.');
+    exibirGuilda('');
+} else {
+    fetch('/quiz/resultados/' + encodeURIComponent(idUsuario))
+        .then(function(resposta) {
+            if (!resposta.ok) {
+                return resposta.text().then(function(text) {
+                    throw new Error('HTTP ' + resposta.status + ': ' + text);
+                });
+            }
+            return resposta.json();
+        })
+        .then(function(dados) {
+            if (!dados || dados.length === 0) {
+                throw new Error('Nenhum resultado de quiz encontrado para o usuário.');
+            }
+
+            var guilda = (dados[0].guilda || '').toString();
+            exibirGuilda(guilda);
+
+            var pontuacao = Number(dados[0].pontuacao_total);
+            if (isNaN(pontuacao)) {
+                throw new Error('Pontuação do usuário inválida.');
+            }
+
+            var scores = [
+                Math.max(0, 100 - Math.abs(pontuacao - 4) * 10),  // Arquivista
+                Math.max(0, 100 - Math.abs(pontuacao - 10) * 10),  // Antologista
+                Math.max(0, 100 - Math.abs(pontuacao - 14) * 10),  // Viajante
+                Math.max(0, 100 - Math.abs(pontuacao - 18) * 10)   // Decifrador
+            ];
+
+            var totalScores = scores.reduce(function(sum, value) {
+                return sum + value;
+            }, 0);
+
+            if (totalScores === 0) {
+                scores = [1, 1, 1, 1];
+                totalScores = 4;
+            }
+
+            var porcentagens = [];
+            var acumulado = 0;
+
+            scores.forEach(function(value, index) {
+                if (index === scores.length - 1) {
+                    porcentagens.push(100 - acumulado);
+                } else {
+                    var percentual = Math.round((value / totalScores) * 100);
+                    porcentagens.push(percentual);
+                    acumulado += percentual;
+                }
+            });
+
+            var grafico2 = document.getElementById('grafico_2');
+            if (!grafico2) {
+                console.error('Canvas do gráfico de barras não encontrado.');
+                return;
+            }
+
+            var ctx2 = grafico2.getContext('2d');
+            new Chart(ctx2, {
+                type: 'bar',
+                data: {
+                    labels: ['Arquivista', 'Antologista', 'Viajante', 'Decifrador'],
+                    datasets: [{
+                        label: 'Compatibilidade (%)',
+                        data: porcentagens,
+                        backgroundColor: ['#e0ab38', '#70045e', '#1b2180', '#450173'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+    scales: {
+        y: {
+            beginAtZero: true,
+            max: 100,
+            ticks: {
+                callback: function(value) {
+                    return value + '%';
+                }
+            }
+        }
+    },
+    plugins: {
+        annotation: {
+            annotations: {
+                
+            }
+        }
+    }
+}
+            });
+        })
+        .catch(function(erro) {
+            console.error('Erro ao carregar resultado do usuário:', erro);
+        });
+}
+
+function logout() {
+    sessionStorage.clear();
+    window.location.href = '/Tela inicial/index.html';
+}
+
+Chart.defaults.font.family = "Garden";
+Chart.defaults.font.size = 14;
+
+</script>
+</body>
+</html>

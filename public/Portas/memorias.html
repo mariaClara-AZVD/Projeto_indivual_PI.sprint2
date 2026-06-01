@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="memorias.css">
+</head>
+<body>
+
+    <video id="video" autoplay>
+        <source src="imagens/copy_0BC76D04-F152-44AA-9F5D-39DE95CDED7A (1).MOV" type="video/mp4">
+    </video>
+
+    <button id="botao">FIM</button>
+
+</body>
+</html>
+<script>
+const video = document.getElementById("video");
+const botao = document.getElementById("botao");
+
+video.onended = function() {
+    botao.style.display = "block";
+}
+
+// Ao clicar no botão de fim, redireciona para o dashboard
+botao.onclick = function() {
+    window.location.href = '/dashboard/dashboard.html';
+}
+</script>

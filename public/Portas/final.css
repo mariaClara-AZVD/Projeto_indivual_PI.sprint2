@@ -1,0 +1,29 @@
+body{
+  margin: 0;
+  padding: 0;
+  height: 100%; 
+  width: 100%; 
+  background-image: url('imagens/sala-bau.png.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+
+  background-image: url("imagens/sala-bau.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.porta_esquerda{
+    position: absolute;
+    left: 50%;
+    width: 50%;
+    height: 100%;
+}
+
+
+
+body:has(.porta_esquerda:hover){
+    background-image: url("imagens/sala-bau-aberto.png");
+}
