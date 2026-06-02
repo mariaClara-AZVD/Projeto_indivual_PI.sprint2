@@ -15,14 +15,14 @@ body{
 }
 @font-face {
     font-family: 'heartsome';
-    src: url('/Portas/Tela inicial/imagem/fontes/Heartsome DEMO.otf') format('truetype');
+    src: url('/Tela inicial/imagem/fontes/Heartsome DEMO.otf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'Garden';
-    src: url('/Portas/Tela inicial/imagem/fontes/The Garden of Lights.ttf') format('truetype');
+    src: url('/Tela inicial/imagem/fontes/The Garden of Lights.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }

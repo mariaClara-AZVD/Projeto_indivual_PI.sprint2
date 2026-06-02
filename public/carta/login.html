@@ -77,20 +77,21 @@ function entrar() {
     console.log("FORM LOGIN:", emailVar);
     console.log("FORM SENHA:", senhaVar);
 
-    // Fazer o select no banco para ver se existe
+    // esse fech busca e traz  dados do endereço que e o usuario/autenticar
     fetch("/usuarios/autenticar", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
 
+        // tradução de dados (como se estivesse em outra lingua e tivesse que traduzir)
         body: JSON.stringify({
             emailServer: emailVar,
             senhaServer: senhaVar,
             nomeServer : varnome
         })
 
-        // resposta
+        // resposta é como se fosse uma caixinha que gr=uarda as respostas trazidas 
     }).then(function (resposta) {
 
         console.log("Resposta:", resposta);
@@ -98,28 +99,41 @@ function entrar() {
         // se a resposta = ok ou o usuario existir no banco 
         if (resposta.ok) {
 
-            //faz login e guarda os dados
+            //faz login e guarda os dados --> tranforma os dados e volta como objeto do javascript
             resposta.json().then(json => {
 
                 console.log(json);
+                //mostra os dados ja convertidos
 
+
+                //memoria temporaria que guarda  as info do json
                 sessionStorage.EMAIL_USUARIO = json.email;
                 sessionStorage.NOME_USUARIO = json.nome;
                 sessionStorage.ID_USUARIO = json.id;
 
+                // mostra menssagem de sucesso 
                 mensagemErro.innerHTML = "Login realizado!";
                 mensagemErro.style.color = "green";
                 
-    // verifica se o usuario ja fez o quiz
+    // busca os dados
     fetch('/quiz/verificar/' + json.id)
+    
+    // retorna dados brutos e traduz
     .then(function(r) { return r.json(); })
+    // coloca os dados traduzidos para no parametro resultado
     .then(function(resultado) {
+        // valida se usuario ja existe
         if (resultado.jaFez) {
             // Já fez o quiz — pergunta o que quer fazer
+            // dica do doguinha : confirm --> alerta/pop up
+            //setei uma variavel --> para fazer a validação
             var reiniciar = confirm("Você já fez o quiz! Deseja reiniciar sua jornada?\n\nClique em OK para reiniciar ou Cancelar para ver sua dashboard.");
             
+            // validação da variavel se o usuario quer refazer o quiz 
             if (reiniciar) {
                 // Deleta o resultado antigo e vai pro quiz
+
+                // faz um fetch que busca os dados no quiz e se existir ele deleta as respostas antigas e vai pro quiz
                 fetch('/quiz/deletar/' + json.id, { method: 'DELETE' })
                     .then(function() {
                         window.location = "../Portas/portas.html";
@@ -129,7 +143,8 @@ function entrar() {
                 window.location = "/dashboard/dashboard.html";
             }
         } else {
-            // Nunca fez o quiz — vai pro quiz normalmente
+            
+            // espera um segundo e vai para outro site
             setTimeout(() => {
                 window.location = "../Portas/portas.html";
             }, 1000);
@@ -137,6 +152,8 @@ function entrar() {
     });
 
             });
+
+            // se a resposta for n for ok ele mostra erro
 
         } else {
 
@@ -151,6 +168,8 @@ function entrar() {
 
         mensagemErro.innerHTML = "Erro no servidor!";
         mensagemErro.style.display = "block";
+        
+        // pega erro no servidor
 
     });
 

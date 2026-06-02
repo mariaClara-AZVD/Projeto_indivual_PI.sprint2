@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+     <title>Grimorio de memori</title>
     <link rel="stylesheet" href="Labirinto.css">
 </head>
 <body>
@@ -152,6 +152,8 @@ function pergunta_na_tela() {
     op4.innerHTML = perg.opcoes[3]
 }
 
+let compatibilidade = []
+
 function proxima_pergunta(){
     
     if(alternativa_Escolhida == -1){
@@ -162,7 +164,9 @@ function proxima_pergunta(){
     pontuacao += qui[pergunta_atual].pontos[alternativa_Escolhida]
 
     pontos_por_questao[pergunta_atual] =
-        qui[pergunta_atual].pontos[alternativa_Escolhida]
+    qui[pergunta_atual].pontos[alternativa_Escolhida]
+    
+    compatibilidade[pergunta_atual] = alternativa_Escolhida;
 
     pergunta_atual++
 
@@ -174,7 +178,8 @@ function proxima_pergunta(){
     } else {
 
         final()
-
+        
+        
     }
 }
 
@@ -204,7 +209,14 @@ function final(){
     sessionStorage.setItem(
         'pontuacao',
         JSON.stringify(pontos_por_questao)
+        
     )
+
+    sessionStorage.setItem(
+        'vetor_guildas', 
+        JSON.stringify(compatibilidade)
+    
+    );
 
     sessionStorage.setItem(
         'pontuacao_total',
@@ -253,17 +265,18 @@ function final(){
     var id_usuario = sessionStorage.ID_USUARIO;
     var guilda_salvar = nome_cla.innerHTML;
     var pontos_questao = sessionStorage.getItem('pontuacao');
+    
 
     fetch("/quiz/salvar", {
     method: "POST",
     headers: {
         "Content-Type": "application/json"
-    },
+    },  
         body: JSON.stringify({
-         id_usuario: id_usuario,
-         guilda: guilda_salvar,
-         pontuacao_total: pontuacao,
-         pontos_por_questao: pontos_questao
+            id_usuario: id_usuario,
+            guilda: guilda_salvar,
+            pontuacao_total: pontuacao,
+            pontos_por_questao: JSON.stringify(pontos_por_questao)
         })
      })
     .then(function(resposta) {

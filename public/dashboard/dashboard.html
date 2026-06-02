@@ -17,7 +17,7 @@
         <canvas id="grafico_1"></canvas>
         <button id="botao-sair" class="botao-sair" onclick="logout()">Sair</button>
     </div>
-    
+
    
     <div>
         
@@ -32,26 +32,42 @@
         </div>
     </div>
 
-    <img src="/public/Portas/imagens/almas-brasao.png" alt="">
+    
 
 </div>
 <script>
-    
+
+//busca dados na tabaela quiz 
 fetch('/quiz/resultados')
+
+    //retorna  com a  resposta e guarda no parametro
     .then(function(resposta) {
+
+        // verifica se o erro foi encontrado
         if (!resposta.ok) {
+
+            // retorna resposta em formato de texto caso tenha erro
             return resposta.text().then(function(text) {
-                throw new Error('HTTP ' + resposta.status + ': ' + text);
+                throw new Error('HTTP ' + resposta.status + ': ' + text); // => tipo do errp e status
             });
         }
-        return resposta.json();
+        return resposta.json(); 
     })
+    // retorna resposta guardando no parametro dados 
     .then(function(dados) {
-        var totals = dados.reduce(function(map, item) {
-            var key = (item.guilda || '').toString().trim().toLowerCase();
-            map[key] = item.total;
-            return map;
-        }, {});
+
+
+       var totals = {};
+
+        
+        dados.forEach(function(item) {
+    
+        
+        var chave = (item.guilda || '').toString().trim().toLowerCase();
+    
+        
+        totals[chave] = item.total;
+    });
 
         var labels = [
             'O Arquivista de Pergaminhos',
@@ -60,22 +76,24 @@ fetch('/quiz/resultados')
             'Decifrador de Grimórios'
         ];
 
-        function findTotal(label) {
+        function acharTotal(label) {
             var normalizedLabel = label.toLowerCase();
             if (totals[normalizedLabel] !== undefined) {
                 return totals[normalizedLabel];
             }
 
-            for (var key in totals) {
-                if (key && (normalizedLabel.includes(key) || key.includes(normalizedLabel))) {
-                    return totals[key];
+            for (var chave in totals) {
+                if (chave && (normalizedLabel.includes(chave) || chave.includes(normalizedLabel))) {
+                    return totals[chave];
                 }
             }
 
             return 0;
         }
 
-        var totais = labels.map(findTotal);
+        var totais = labels.map(acharTotal);  
+        
+   
 
         var canvas = document.getElementById('grafico_1');
         var ctx = canvas.getContext('2d');
@@ -140,101 +158,64 @@ if (!idUsuario) {
     console.warn('ID_USUARIO não encontrado em sessionStorage. O gráfico de barras não será exibido até o login.');
     exibirGuilda('');
 } else {
-    fetch('/quiz/resultados/' + encodeURIComponent(idUsuario))
-        .then(function(resposta) {
-            if (!resposta.ok) {
-                return resposta.text().then(function(text) {
-                    throw new Error('HTTP ' + resposta.status + ': ' + text);
-                });
-            }
-            return resposta.json();
-        })
-        .then(function(dados) {
-            if (!dados || dados.length === 0) {
-                throw new Error('Nenhum resultado de quiz encontrado para o usuário.');
-            }
+    fetch(`/quiz/resultados/${idUsuario}`)
+        .then(resposta => resposta.json())
+        .then(dados => {
 
-            var guilda = (dados[0].guilda || '').toString();
-            exibirGuilda(guilda);
+    var guilda = (dados[0].guilda || '').toString()
+    exibirGuilda(guilda)
+    
+    var pontinhos = dados[0].pontos_por_questao;
+    var pontos = JSON.parse(pontinhos || '[1,1,1,1,1]');
 
-            var pontuacao = Number(dados[0].pontuacao_total);
-            if (isNaN(pontuacao)) {
-                throw new Error('Pontuação do usuário inválida.');
-            }
 
-            var scores = [
-                Math.max(0, 100 - Math.abs(pontuacao - 4) * 10),  // Arquivista
-                Math.max(0, 100 - Math.abs(pontuacao - 10) * 10),  // Antologista
-                Math.max(0, 100 - Math.abs(pontuacao - 14) * 10),  // Viajante
-                Math.max(0, 100 - Math.abs(pontuacao - 18) * 10)   // Decifrador
-            ];
+    var vetor = pontos.map(function(p) { return p - 1; });
+    
+    console.log('Vetor de guildas antes do cálculo:', vetor);
 
-            var totalScores = scores.reduce(function(sum, value) {
-                return sum + value;
-            }, 0);
+  
+    var contagem = [0,0,0,0]
 
-            if (totalScores === 0) {
-                scores = [1, 1, 1, 1];
-                totalScores = 4;
-            }
+    vetor.forEach(posicao => {
+        contagem[posicao]++
+    })
 
-            var porcentagens = [];
-            var acumulado = 0;
+    var porcentagens = [
+        (contagem[0] / 5) * 100,
+        (contagem[1] / 5) * 100,
+        (contagem[2] / 5) * 100,
+        (contagem[3] / 5) * 100
+    ]
 
-            scores.forEach(function(value, index) {
-                if (index === scores.length - 1) {
-                    porcentagens.push(100 - acumulado);
-                } else {
-                    var percentual = Math.round((value / totalScores) * 100);
-                    porcentagens.push(percentual);
-                    acumulado += percentual;
-                }
-            });
+      console.log('Vetor de guildas:', vetor);
+      console.log('Contagem:', contagem);
 
-            var grafico2 = document.getElementById('grafico_2');
-            if (!grafico2) {
-                console.error('Canvas do gráfico de barras não encontrado.');
-                return;
-            }
+    var ctx2 = document.getElementById('grafico_2').getContext('2d')
 
-            var ctx2 = grafico2.getContext('2d');
-            new Chart(ctx2, {
-                type: 'bar',
-                data: {
-                    labels: ['Arquivista', 'Antologista', 'Viajante', 'Decifrador'],
-                    datasets: [{
-                        label: 'Compatibilidade (%)',
-                        data: porcentagens,
-                        backgroundColor: ['#e0ab38', '#70045e', '#1b2180', '#450173'],
-                        borderWidth: 0
-                    }]
-                },
-                options: {
-    scales: {
-        y: {
-            beginAtZero: true,
-            max: 100,
-            ticks: {
-                callback: function(value) {
-                    return value + '%';
+    new Chart(ctx2, {
+        type: 'bar',
+        data: {
+            labels: ['Arquivista', 'Antologista', 'Viajante', 'Decifrador'],
+            datasets: [{
+                label: 'Compatibilidade (%)',
+                data: porcentagens,
+                backgroundColor: ['#e0ab38', '#70045e', '#1b2180', '#450173']
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 100
                 }
             }
         }
-    },
-    plugins: {
-        annotation: {
-            annotations: {
-                
-            }
+    })
+
+    })
+    .catch(erro => console.error('Erro:', erro))
+
         }
-    }
-}
-            });
-        })
-        .catch(function(erro) {
-            console.error('Erro ao carregar resultado do usuário:', erro);
-        });
-}
 
 function logout() {
     sessionStorage.clear();

@@ -1,28 +1,28 @@
 var quizModel = require("../models/quizModel");
 
+
 function salvarResultado(req, res) {
     var id_usuario = req.body.id_usuario;
     var guilda = req.body.guilda;
     var pontuacao_total = req.body.pontuacao_total;
     var pontos_por_questao = req.body.pontos_por_questao;
 
-    if (id_usuario == undefined || guilda == undefined || pontuacao_total == undefined) {
+    console.log('DADOS RECEBIDOS:', id_usuario, guilda, pontuacao_total, pontos_por_questao);
+
+    if (!id_usuario || !guilda || !pontuacao_total || !pontos_por_questao) {
         return res.status(400).json({ error: "Dados incompletos!" });
     }
 
-    for(i = 0; i < pontos_por_questao.length; i++){
-        quizModel.salvarResultado(id_usuario, guilda, pontuacao_total,pontos_por_questao[i])
-        .then(function (resultado) {
+    quizModel.salvarResultado(id_usuario, guilda, pontuacao_total, pontos_por_questao)
+        .then(function(resultado) {
             res.json({ success: true, insertId: resultado.insertId });
         })
-        .catch(function (erro) {
+        .catch(function(erro) {
             console.log("Erro ao salvar resultado:", erro);
-            res.status(500).json({ error: erro.sqlMessage || erro.message || "Erro interno ao salvar resultado" });
+            res.status(500).json({ error: erro.sqlMessage || erro.message });
         });
-    }
-
-    
 }
+
 
 function buscarResultados(req, res) {
     quizModel.buscarResultados()
@@ -82,4 +82,4 @@ module.exports = {
     buscarResultadoUsuario,
     verificarSeJaFez,
     deletarResultado
-};
+}

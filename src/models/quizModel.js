@@ -23,7 +23,7 @@ function buscarResultados() {
 
 function buscarResultadoUsuario(id_usuario) {
     var instrucaoSql = `
-        SELECT guilda, pontuacao_total
+        SELECT guilda, pontuacao_total, pontos_por_questao
         FROM quiz
         WHERE id_usuario = ?;
     `;

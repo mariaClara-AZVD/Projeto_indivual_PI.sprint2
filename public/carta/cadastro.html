@@ -127,14 +127,16 @@ function cadastrar() {
         // se o cadastro der certo = ok
         if (resposta.ok) {
 
+
+            // mensagem se der certo
             mensagemErro.style.display = "block";
             mensagemErro.style.color = "green";
-
             mensagemErro.innerHTML =
             "Cadastro realizado com sucesso!";
 
             console.log("Cadastro bem-sucedido, redirecionando...");
 
+            //2 segundos para voltar para a tela de login
             setTimeout(() => {
 
                 window.location = "login.html";
@@ -146,6 +148,7 @@ function cadastrar() {
 
             console.log("Resposta com erro, tentando parsear JSON...");
 
+            // retorna resposta caso der erro 
             return resposta.json().then(function (erroBody) {
                 console.log("Erro retornado pelo servidor:", erroBody);
                 mensagemErro.style.display = "block";

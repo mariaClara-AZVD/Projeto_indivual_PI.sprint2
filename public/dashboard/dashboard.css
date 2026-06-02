@@ -8,7 +8,7 @@
 body {
     margin: 0;
     padding: 0;
-    background-image: url('imagens/image.png'); /* Sua imagem do livro */
+    background-image: url('imagens/image.png'); 
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;

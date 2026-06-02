@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title></title>
     <link rel="stylesheet" href="clareira.css">
+     <title>Grimorio de memori</title>
     
 </head>
 <body>
@@ -47,9 +48,9 @@
 
             <div id="descricao"></div>
 
-            <a href="jardim-magico.html">
+            
             <button id="continua" onclick="proxima_pagina()">Continuar</button>
-            </a>
+           
             
 
         </div>
@@ -152,6 +153,7 @@ function pergunta_na_tela() {
     op3.innerHTML = perg.opcoes[2]
     op4.innerHTML = perg.opcoes[3]
 }
+let compatibilidade = []
 
 function proxima_pergunta(){
     
@@ -163,7 +165,9 @@ function proxima_pergunta(){
     pontuacao += qui[pergunta_atual].pontos[alternativa_Escolhida]
 
     pontos_por_questao[pergunta_atual] =
-        qui[pergunta_atual].pontos[alternativa_Escolhida]
+    qui[pergunta_atual].pontos[alternativa_Escolhida]
+    
+    compatibilidade[pergunta_atual] = alternativa_Escolhida;
 
     pergunta_atual++
 
@@ -175,7 +179,8 @@ function proxima_pergunta(){
     } else {
 
         final()
-
+        
+        
     }
 }
 
@@ -205,7 +210,14 @@ function final(){
     sessionStorage.setItem(
         'pontuacao',
         JSON.stringify(pontos_por_questao)
+        
     )
+
+    sessionStorage.setItem(
+        'vetor_guildas', 
+        JSON.stringify(compatibilidade)
+    
+    );
 
     sessionStorage.setItem(
         'pontuacao_total',
@@ -254,20 +266,21 @@ function final(){
     var id_usuario = sessionStorage.ID_USUARIO;
     var guilda_salvar = nome_cla.innerHTML;
     var pontos_questao = sessionStorage.getItem('pontuacao');
+    
 
-fetch("/quiz/salvar", {
+    fetch("/quiz/salvar", {
     method: "POST",
     headers: {
         "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-        id_usuario: id_usuario,
-        guilda: guilda_salvar,
-        pontuacao_total: pontuacao,
-        pontos_por_questao: pontos_questao
-    })
-})
-.then(function(resposta) {
+    },  
+        body: JSON.stringify({
+            id_usuario: id_usuario,
+            guilda: guilda_salvar,
+            pontuacao_total: pontuacao,
+            pontos_por_questao: JSON.stringify(pontos_por_questao)
+        })
+     })
+    .then(function(resposta) {
     if (resposta.ok) {
         console.log("Resultado salvo no banco!");
     }
@@ -280,11 +293,9 @@ fetch("/quiz/salvar", {
 }
 
  function proxima_pagina(){
-    window.location = "jardim-magico.html"
-
+     window.location = "jardim-magico.html"
  }
 
     
 
-</script></body>
-</html>
+</script>
