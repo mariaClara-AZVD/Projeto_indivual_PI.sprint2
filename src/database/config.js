@@ -25,13 +25,6 @@ function executar(instrucao) {
                 return;
             }
 
-            // Ativar autocommit para garantir que os dados sejam salvos
-            conexao.query('SET autocommit=1', function(erroAuto) {
-                if(erroAuto) {
-                    console.error("Erro ao ativar autocommit:", erroAuto.message);
-                    reject(erroAuto);
-                    return;
-                }
 
                 conexao.query(instrucao, function (erro, resultados) {
                     conexao.end();
